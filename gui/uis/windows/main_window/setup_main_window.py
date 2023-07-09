@@ -1,19 +1,16 @@
-import sys
-import os
-import pandas as pd
-
 from . functions_main_window import *
 
-from gui.widgets import PyIconButton, PyLineEdit, ModelFunction1, ModelFunction2, ModelFunction3
-from gui.widgets.py_table_widget.py_table_widget import PyTableWidget
-from PySide6.QtGui import QIcon, Qt 
-from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtWidgets import QSizePolicy
+from gui.widgets import PyIconButton, ModelFunction1, ModelFunction2, ModelFunction3
 from gui.core.json_settings import Settings
 from gui.core.json_themes import Themes
-from gui.widgets import PyGrips, PyPushButton
+from gui.widgets import PyGrips
 from gui.core.functions import Functions
-import numpy as np
+
+from PySide6.QtGui import Qt 
+from PySide6.QtSvgWidgets import QSvgWidget
+
+import FPTvision
+
 class SetupMainWindow:
     def __init__(self):
         super().__init__()
@@ -32,24 +29,24 @@ class SetupMainWindow:
         {
             "btn_icon" : "icon_add_user.svg",
             "btn_id" : "btn_1",
-            "btn_text" : "Create a white background",
-            "btn_tooltip" : "Function 1",
+            "btn_text" : "Extract Face From An Image",
+            "btn_tooltip" : "Extract Face",
             "show_top" : True,
             "is_active" : False,
         },
         {
             "btn_icon" : "icon_add_user.svg",
             "btn_id" : "btn_2",
-            "btn_text" : "Translation Transformation",
-            "btn_tooltip" : "Function 2",
+            "btn_text" : "Extract Face From Camera",
+            "btn_tooltip" : "Extract Face",
             "show_top" : True,
             "is_active" : False
         },
         {
             "btn_icon" : "icon_search.svg",
             "btn_id" : "btn_3",
-            "btn_text" : "Rotation Transformation", 
-            "btn_tooltip" : "Function 3",
+            "btn_text" : "Recognize Faces", 
+            "btn_tooltip" : "Recognition",
             "show_top" : True,
             "is_active" : False
         }
@@ -99,64 +96,100 @@ class SetupMainWindow:
             title = "Settings Left Column",
             icon_path = Functions.set_svg_icon("icon_settings.svg")
         )
-        
+         
         settings = Settings()
         self.settings = settings.items
         
         themes = Themes()
         self.themes = themes.items
-        
-        self.left_btn_1 = PyPushButton(
-            text="Btn 1",
-            radius=8,
-            color=self.themes["app_color"]["text_foreground"],
-            bg_color=self.themes["app_color"]["dark_one"],
-            bg_color_hover=self.themes["app_color"]["dark_three"],
-            bg_color_pressed=self.themes["app_color"]["dark_four"]
-        )
-        
-        self.left_btn_1.setMaximumHeight(40)
-        self.ui.left_column.menus.btn_1_layout.addWidget(self.left_btn_1)
-        self.left_btn_2 = PyPushButton( 
-            text="Btn With Icon",
-            radius=8,
-            color=self.themes["app_color"]["text_foreground"],
-            bg_color=self.themes["app_color"]["dark_one"],
-            bg_color_hover=self.themes["app_color"]["dark_three"],
-            bg_color_pressed=self.themes["app_color"]["dark_four"]
-        )
-        
-        self.icon = QIcon(Functions.set_svg_icon("icon_settings.svg"))
-        self.left_btn_2.setIcon(self.icon)
-        self.left_btn_2.setMaximumHeight(40)
-        self.ui.left_column.menus.btn_2_layout.addWidget(self.left_btn_2)
-        
-        # BTN 3 - Default QPushButton
-        self.left_btn_3 = QPushButton("Default QPushButton")
-        self.left_btn_3.setMaximumHeight(40)
-        self.ui.left_column.menus.btn_3_layout.addWidget(self.left_btn_3)
+    
         
         #Home page
         self.Home_logo = QSvgWidget(Functions.set_svg_image("Home.svg"))
-        self.Home_logo.setFixedSize(500, 550)
+        self.Home_logo.setFixedSize(700, 700)
         self.ui.load_pages.row_1_1layout.addWidget(self.Home_logo, Qt.AlignCenter | Qt.AlignCenter)
-        width = 1200
-        height = 900
+        
+        self.btn_search = PyIconButton(
+            icon_path = Functions.set_svg_icon("icon_search.svg"),
+            parent = self,
+            app_parent = self.ui.central_widget,
+            tooltip_text = "Search",
+            width = 40,
+            height = 40,
+            radius = 20,
+            dark_one = self.themes["app_color"]["dark_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["dark_four"],
+            icon_color_pressed = self.themes["app_color"]["icon_active"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["pink"]
+        )
+        
+        self.btn_save_1 = PyIconButton(
+            icon_path = Functions.set_svg_icon("icon_save.svg"),
+            parent = self,
+            app_parent = self.ui.central_widget,
+            tooltip_text = "Save",
+            width = 40,
+            height = 40,
+            radius = 8,
+            dark_one = self.themes["app_color"]["dark_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["dark_four"],
+            icon_color_pressed = self.themes["app_color"]["icon_active"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["green"]
+        )
+        
+        self.btn_capture = PyIconButton(
+            icon_path = Functions.set_svg_icon("icon_save.svg"),
+            parent = self,
+            app_parent = self.ui.central_widget,
+            tooltip_text = "Save",
+            width = 40,
+            height = 40,
+            radius = 8,
+            dark_one = self.themes["app_color"]["dark_one"],
+            icon_color = self.themes["app_color"]["icon_color"],
+            icon_color_hover = self.themes["app_color"]["dark_four"],
+            icon_color_pressed = self.themes["app_color"]["icon_active"],
+            icon_color_active = self.themes["app_color"]["icon_active"],
+            bg_color = self.themes["app_color"]["dark_one"],
+            bg_color_hover = self.themes["app_color"]["dark_three"],
+            bg_color_pressed = self.themes["app_color"]["green"]
+        )
+        
+        self.Detector = FPTvision.app.FaceAnalysis()
+        self.Detector.prepare(ctx_id=0, det_size=(640, 640))
+        
+        self.Recognition = FPTvision.model_zoo.arcface_onnx.ArcFaceONNX(model_file='./gui/models/Recognition/model.onnx')
+        self.Recognition.prepare(ctx_id=0)
+
         # page 2 (3 tính năng: text bar, 2 button)
-        self.Function1 = ModelFunction1()
+        self.Function1 = ModelFunction1(self.Detector)
         self.ui.load_pages.row_1_2layout.addWidget(self.Function1.canvas_image)
         self.ui.load_pages.row_2_2layout.addWidget(self.Function1.text_name)
-        self.ui.load_pages.row_2_2layout.addWidget(self.Function1.btn_open)
-        self.ui.load_pages.row_2_2layout.addWidget(self.Function1.btn_save)
+        
+        self.ui.load_pages.row_2_2layout.addWidget(self.btn_search)
+        self.btn_search.clicked.connect(self.Function1.open_image)
+        
+        self.ui.load_pages.row_2_2layout.addWidget(self.btn_save_1)
+        self.btn_save_1.clicked.connect(self.Function1.save_face)
         
         # page 3 (1 tính năng: 1 button)
-        self.Function2 = ModelFunction2()
+        self.Function2 = ModelFunction2(self.Detector)
         self.ui.load_pages.row_1_3layout.addWidget(self.Function2.canvas_image)
         self.ui.load_pages.row_2_3layout.addWidget(self.Function2.text_name)
-        self.ui.load_pages.row_2_3layout.addWidget(self.Function2.btn_capture)
         
-        # page 4 (chỉ cần show camera)
-        self.Function3 = ModelFunction3()
+        self.ui.load_pages.row_2_3layout.addWidget(self.btn_capture)
+        self.btn_capture.clicked.connect(self.Function2.capture_face)
+        
+        # page 4 (chỉ  cần show camera)
+        self.Function3 = ModelFunction3(self.Detector, self.Recognition)
         self.ui.load_pages.row_1_4layout.addWidget(self.Function3.video_label)
         
     def resize_grips(self):

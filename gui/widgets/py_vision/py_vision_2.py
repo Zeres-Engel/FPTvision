@@ -1,20 +1,13 @@
 import cv2
 import os
-from PySide6 import QtCore, QtGui, QtWidgets
-from PIL import Image, ImageQt
-import FPTvision
-import os
-import numpy as np
-from PySide6.QtWidgets import QPushButton, QLabel, QGraphicsDropShadowEffect, QLineEdit, QApplication, QWidget, QMessageBox
-from PySide6.QtGui import Qt, QPainter, QBrush, QColor, QPixmap,QImage, QPen, QTransform
-from PySide6.QtCore import QRect, QEvent, QPoint
 
-def set_svg_icon(icon_name):
-    app_path = os.path.abspath(os.getcwd())
-    folder = "./gui/images/svg_icons/"
-    path = os.path.join(app_path, folder)
-    icon = os.path.normpath(os.path.join(path, icon_name))
-    return icon
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtWidgets import QLineEdit, QMessageBox, QWidget
+
+from PIL import Image, ImageQt
+
+from FPTvision.utils import face_align
+
 style = '''
 QLineEdit {{
 	background-color: {_bg_color}; 
@@ -79,213 +72,21 @@ class PyLineEdit(QLineEdit):
         )
         self.setStyleSheet(style_format)
 
-class PyIconButton(QPushButton):
-    def __init__(
-        self,
-        icon_path = None,
-        parent = None,
-        app_parent = None,
-        tooltip_text = "",
-        btn_id = None,
-        width = 30,
-        height = 30,
-        radius = 8,
-        bg_color = "#343b48",
-        bg_color_hover = "#3c4454",
-        bg_color_pressed = "#2c313c",
-        icon_color = "#c3ccdf",
-        icon_color_hover = "#dce1ec",
-        icon_color_pressed = "#edf0f5",
-        icon_color_active = "#f5f6f9",
-        dark_one = "#1b1e23",
-        text_foreground = "#8a95aa",
-        context_color = "#568af2",
-        top_margin = 40,
-        is_active = False
-    ):
-        super().__init__()
-        self.setFixedSize(width, height)
-        self.setCursor(Qt.PointingHandCursor)
-        self.setObjectName(btn_id)
-        self._bg_color = bg_color
-        self._bg_color_hover = bg_color_hover
-        self._bg_color_pressed = bg_color_pressed        
-        self._icon_color = icon_color
-        self._icon_color_hover = icon_color_hover
-        self._icon_color_pressed = icon_color_pressed
-        self._icon_color_active = icon_color_active
-        self._context_color = context_color
-        self._top_margin = top_margin
-        self._is_active = is_active
-        self._set_bg_color = bg_color
-        self._set_icon_path = icon_path
-        self._set_icon_color = icon_color
-        self._set_border_radius = radius
-        self._parent = parent
-        self._app_parent = app_parent
-        self._tooltip_text = tooltip_text
-        self._tooltip = _ToolTip(
-            app_parent,
-            tooltip_text,
-            dark_one,
-            text_foreground
-        )
-        self._tooltip.hide()
-    def clicked(self):
-        self.clicked.emit()
-    def set_active(self, is_active):
-        self._is_active = is_active
-        self.repaint()
-    def is_active(self):
-        return self._is_active
-    def paintEvent(self, event):
-        paint = QPainter()
-        paint.begin(self)
-        paint.setRenderHint(QPainter.RenderHint.Antialiasing)
-        if self._is_active:
-            brush = QBrush(QColor(self._context_color))
-        else:
-            brush = QBrush(QColor(self._set_bg_color))
-        rect = QRect(0, 0, self.width(), self.height())
-        paint.setPen(Qt.NoPen)
-        paint.setBrush(brush)
-        paint.drawRoundedRect(
-            rect, 
-            self._set_border_radius, 
-            self._set_border_radius
-        )
-        self.icon_paint(paint, self._set_icon_path, rect)
-        paint.end()
-    def change_style(self, event):
-        if event == QEvent.Enter:
-            self._set_bg_color = self._bg_color_hover
-            self._set_icon_color = self._icon_color_hover
-            self.repaint()         
-        elif event == QEvent.Leave:
-            self._set_bg_color = self._bg_color
-            self._set_icon_color = self._icon_color
-            self.repaint()
-        elif event == QEvent.MouseButtonPress:            
-            self._set_bg_color = self._bg_color_pressed
-            self._set_icon_color = self._icon_color_pressed
-            self.repaint()
-        elif event == QEvent.MouseButtonRelease:
-            self._set_bg_color = self._bg_color_hover
-            self._set_icon_color = self._icon_color_hover
-            self.repaint()
-    def enterEvent(self, event):
-        self.change_style(QEvent.Enter)
-        self.move_tooltip()
-        self._tooltip.show()
-    def leaveEvent(self, event):
-        self.change_style(QEvent.Leave)
-        self.move_tooltip()
-        self._tooltip.hide()
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.change_style(QEvent.MouseButtonPress)
-            self.setFocus()
-            return self.clicked.emit()
-    def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            
-            self.change_style(QEvent.MouseButtonRelease)
-            return self.released.emit()
-    def icon_paint(self, qp, image, rect):
-        icon = QPixmap(image)
-        painter = QPainter(icon)
-        painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        if self._is_active:
-            painter.fillRect(icon.rect(), self._icon_color_active)
-        else:
-            painter.fillRect(icon.rect(), self._set_icon_color)
-        qp.drawPixmap(
-            (rect.width() - icon.width()) / 2, 
-            (rect.height() - icon.height()) / 2,
-            icon
-        )        
-        painter.end()
-    def set_icon(self, icon_path):
-        self._set_icon_path = icon_path
-        self.repaint()
-    def move_tooltip(self):
-        gp = self.mapToGlobal(QPoint(0, 0))
-        pos = self._parent.mapFromGlobal(gp)
-        pos_x = (pos.x() - (self._tooltip.width() // 2)) + (self.width() // 2)
-        pos_y = pos.y() - self._top_margin
-        self._tooltip.move(pos_x, pos_y)
-        
-class _ToolTip(QLabel):
-    style_tooltip = """ 
-    QLabel {{		
-        background-color: {_dark_one};	
-        color: {_text_foreground};
-        padding-left: 5px;
-        padding-right: 5px;
-        border-radius: 10px;
-        border: 0px solid transparent;
-        font: 800 9pt "Segoe UI";
-    }}
-    """
-    def __init__(
-        self,
-        parent, 
-        tooltip,
-        dark_one,
-        text_foreground
-    ):
-        QLabel.__init__(self)
-        style = self.style_tooltip.format(
-            _dark_one = dark_one,
-            _text_foreground = text_foreground
-        )
-        self.setObjectName(u"label_tooltip")
-        self.setStyleSheet(style)
-        self.setMinimumHeight(20)
-        self.setParent(parent)
-        self.setText(tooltip)
-        self.adjustSize()
-        self.shadow = QGraphicsDropShadowEffect(self)
-        self.shadow.setBlurRadius(20)
-        self.shadow.setXOffset(0)
-        self.shadow.setYOffset(0)
-        self.shadow.setColor(QColor(0, 0, 0, 80))
-        self.setGraphicsEffect(self.shadow)
 
-class ModelFunction2(QtWidgets.QWidget):
-    def __init__(self):
+class ModelFunction2(QWidget):
+    def __init__(self, model):
         super().__init__()
-        self.setWindowTitle("Face Detection")
-
-        # Create widgets
-        self.btn_capture = PyIconButton(
-            icon_path=set_svg_icon("icon_add_user.svg"),
-            parent=self,
-            app_parent=self,
-            tooltip_text="Open",
-            width=40,
-            height=40,
-            radius=8,
-            dark_one="#1b1e23",
-            icon_color="#c3ccdf",
-            icon_color_hover="#dce1ec",
-            icon_color_pressed="#f5f6f9",
-            icon_color_active="#f5f6f9",
-            bg_color="#1b1e23",
-            bg_color_hover="#21252d",
-            bg_color_pressed="#00ff7f",
-        )
 
         self.text_name = PyLineEdit(
             text="",
             place_holder_text="Enter name",
             radius=8,
             border_size=2,
-            color="#8a95aa",
-            selection_color="#f5f6f9",
-            bg_color="#1b1e23",
-            bg_color_active="#21252d",
-            context_color="#568af2",
+            color="#2c313c",
+            selection_color="#3c4454",
+            bg_color="#FCCB6E",
+            bg_color_active="#FCCB6E",
+            context_color="#f26f21",
         )
         self.text_name.setMinimumHeight(30)
 
@@ -295,50 +96,37 @@ class ModelFunction2(QtWidgets.QWidget):
         self.canvas_layout = QtWidgets.QVBoxLayout(self.canvas_widget)
         self.canvas_image = QtWidgets.QLabel(self.canvas_widget)
         self.canvas_image.setAlignment(QtCore.Qt.AlignCenter)
-        self.canvas_layout.addWidget(self.canvas_image)
 
-        #! Set layout
-        layout = QtWidgets.QVBoxLayout(self)
-        layout.addWidget(self.btn_capture)
-        layout.addWidget(self.text_name)
-        layout.addWidget(self.canvas_widget)
-        
         # Đường dẫn đến file trạng thái
         self.status_file = './gui/status.txt'
         self.status = 0
 
         # Initialize variables
         self.cap = None  # VideoCapture instance
-        self.model = None  # Model instance
+        self.model = model  # Model instance
+        self.faces = None
 
-        # Connect signals
-        self.btn_capture.clicked.connect(self.capture_face)
-
-        # Initialize model detection
-        self.init_model()
-        
         self.check_status()
 
         # Open webcam
         self.open_webcam()
-        
+
         # Start frame update
         self.update_frame()
-        
+
         self.close_webcam()
 
-    def init_model(self):
-        self.model = FPTvision.app.FaceAnalysis(allowed_modules=['detection'])
-        self.model.prepare(ctx_id=0, det_size=(640, 640))
-        
     def check_status(self):
         with open(self.status_file, 'r') as file:
             self.status = file.read().strip()
 
     def update_frame(self):
-        # Kiểm tra nội dung file trạng thái
-        with open(self.status_file, 'r') as file:
-            self.status = file.read().strip()
+        try:
+            # Kiểm tra nội dung file trạng thái
+            with open(self.status_file, 'r') as file:
+                self.status = file.read().strip()
+        except:
+            pass
 
         if self.status == '3':
             if self.cap is None:
@@ -354,13 +142,29 @@ class ModelFunction2(QtWidgets.QWidget):
             if ret:
                 frame = cv2.flip(frame, 1)  # Flip the frame horizontally
 
-                # Detect face using InsightFace model
-                faces = self.model.get(frame)
-                for face in faces:
-                    bbox = face.bbox.astype(int)
-                    cv2.rectangle(frame, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 2)
-                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                image = Image.fromarray(image)
+                # Detect face using model
+                self.faces = self.model.get(frame)
+                if len(self.faces) > 0:
+                    # Find the face with the largest bounding box area
+                    max_area = 0
+                    max_bbox = None
+                    max_face = None
+                    for face in self.faces:
+                        bbox = face.bbox.astype(int)
+                        area = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1])
+                        if area > max_area:
+                            max_area = area
+                            max_bbox = bbox
+                            max_face = face
+
+                if max_bbox is not None:
+                    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Chuyển đổi frame thành màu RGB
+                    cv2.rectangle(frame_rgb, (max_bbox[0], max_bbox[1]), (max_bbox[2], max_bbox[3]), (242, 111, 33), 2)
+                    cv2.putText(frame_rgb, f'Score: {max_face.det_score:.2f}', (max_bbox[0], max_bbox[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (242, 111, 33), 2)
+                else:
+                    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Chuyển đổi frame thành màu RGB
+
+                image = Image.fromarray(frame_rgb)
 
                 # Calculate the scaled size for the image to fit the canvas
                 canvas_width = self.canvas_widget.width()
@@ -377,16 +181,17 @@ class ModelFunction2(QtWidgets.QWidget):
 
                 qt_image = ImageQt.ImageQt(image)
                 pixmap = QtGui.QPixmap.fromImage(qt_image)
-                self.canvas_image.setPixmap(pixmap.scaled(canvas_width, canvas_height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+                self.canvas_image.setPixmap(
+                    pixmap.scaled(canvas_width, canvas_height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+                )
         else:
             self.canvas_image.clear()
             self.close_webcam()
 
         QtCore.QTimer.singleShot(15, self.update_frame)
 
-
     def open_webcam(self):
-        if self.cap is None and self.status == '3': 
+        if self.cap is None and self.status == '3':
             self.cap = cv2.VideoCapture(0)
             self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  # Set frame width to 1280
             self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)  # Set frame height to 720
@@ -401,35 +206,54 @@ class ModelFunction2(QtWidgets.QWidget):
     def capture_face(self):
         ret, frame = self.cap.read()
         if ret:
-            # Detect face using InsightFace model
-            faces = self.model.get(frame)
-            if len(faces) > 0:
-                # Get first face detected
-                bbox = faces[0].bbox.astype(int)
-                face_image = frame[bbox[1]:bbox[3], bbox[0]:bbox[2]]
+            # Detect face using model
+            self.faces = self.model.get(frame)
+            if len(self.faces) > 0:
+                # Find the face with the largest bounding box area
+                max_area = 0
+                max_bbox = None
+                max_face = None
+                for face in self.faces:
+                    bbox = face.bbox.astype(int)
+                    area = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1])
+                    if area > max_area:
+                        max_area = area
+                        max_bbox = bbox
+                        max_face = face
 
-                # Resize face image to 112x112 and center it
-                h, w, _ = face_image.shape
-                size = max(h, w)
-                pad_h = (size - h) // 2
-                pad_w = (size - w) // 2
-                face_image = cv2.copyMakeBorder(face_image, pad_h, pad_h, pad_w, pad_w, cv2.BORDER_CONSTANT, value=(0, 0, 0))
-                face_image = cv2.resize(face_image, (112, 112))
+                if max_bbox is not None:                     
+                    # norm crop
+                    face_image = face_align.norm_crop(frame, max_face.kps)
 
-                # Save face image
-                name = self.text_name.text()
-                if name != "":
-                    filename = os.path.join("./gui/aligned", f"{name}.jpg")
-                    cv2.imwrite(filename, face_image)
-                    QMessageBox.information(self, "Status", f"Face detected and saved successfully")
-                else:
-                    QMessageBox.warning(self, "Status", "Please enter a name for the face image")
+                    # Save face image
+                    name = self.text_name.text()
+                    if name != "":
+                        # Remove spaces in directory name and image name
+                        name_without_spaces = name.replace(" ", "_")
+
+                        # Create the directory path
+                        directory_path = os.path.join("./gui/aligned", name_without_spaces)
+
+                        # Check if the directory exists
+                        if not os.path.exists(directory_path):
+                            os.makedirs(directory_path)
+
+                        # Count the number of face images in the directory
+                        count = len([name for name in os.listdir(directory_path) if
+                                    os.path.isfile(os.path.join(directory_path, name))])
+
+                        # Save the face image
+                        image_path = os.path.join(directory_path, f"{count + 1}.jpg")
+                        cv2.imwrite(image_path, face_image)
+
+                        QMessageBox.information(self, "Information", "Face captured and saved successfully!")
+
+                        self.text_name.clear()
+                    else:
+                        QMessageBox.warning(self, "Warning", "Please enter a name!")
             else:
-                QMessageBox.warning(self, "Status", "No face detected")
+                QMessageBox.warning(self, "Warning", "No face found in the image!")
 
-if __name__ == "__main__":
-    # Initialize GUI
-    app_instance = QtWidgets.QApplication([])
-    model_operation = ModelFunction2()
-    model_operation.show()
-    app_instance.exec_()
+    def closeEvent(self, event):
+        self.close_webcam()
+        event.accept() 

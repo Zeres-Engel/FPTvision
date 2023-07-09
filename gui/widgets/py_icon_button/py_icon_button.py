@@ -20,7 +20,7 @@ class PyIconButton(QPushButton):
         icon_color_pressed = "#edf0f5",
         icon_color_active = "#f5f6f9",
         dark_one = "#1b1e23",
-        text_foreground = "#8a95aa",
+        text_foreground = "#fff",
         context_color = "#568af2",
         top_margin = 40,
         is_active = False

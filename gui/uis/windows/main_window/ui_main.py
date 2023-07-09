@@ -51,8 +51,8 @@ class UI_MainWindow(object):
             left_menu_margin,
             left_menu_margin,
             left_menu_margin,
-            left_menu_margin 
-        )
+            left_menu_margin  
+        ) 
         
         self.left_menu = PyLeftMenu(
             parent = self.left_menu_frame,
@@ -71,6 +71,7 @@ class UI_MainWindow(object):
         )
         
         self.left_menu_layout.addWidget(self.left_menu)
+        
         self.left_column_frame = QFrame()
         self.left_column_frame.setMaximumWidth(self.settings["left_column_size"]["minimum"])
         self.left_column_frame.setMinimumWidth(self.settings["left_column_size"]["minimum"])
@@ -108,7 +109,7 @@ class UI_MainWindow(object):
         self.title_bar_layout.setContentsMargins(0,0,0,0)
         self.title_bar = PyTitleBar(
             parent,
-            logo_width = 166,
+            logo_width = 170,
             app_parent = self.central_widget,
             logo_image = "logo_top_100x22.svg",
             bg_color = self.themes["app_color"]["bg_two"],

@@ -1,23 +1,59 @@
-from __future__ import division
-
 import glob
 import os.path as osp
 
-import numpy as np
 import onnxruntime
-from numpy.linalg import norm
 
 from ..model_zoo import model_zoo
-from ..utils import DEFAULT_MP_NAME, ensure_available
-from .common import Face
 
-__all__ = ['FaceAnalysis']
+from numpy.linalg import norm as l2norm
+
+class Face(dict):
+
+    def __init__(self, d=None, **kwargs):
+        if d is None:
+            d = {}
+        if kwargs:
+            d.update(**kwargs)
+        for k, v in d.items():
+            setattr(self, k, v)
+
+    def __setattr__(self, name, value):
+        if isinstance(value, (list, tuple)):
+            value = [self.__class__(x)
+                    if isinstance(x, dict) else x for x in value]
+        elif isinstance(value, dict) and not isinstance(value, self.__class__):
+            value = self.__class__(value)
+        super(Face, self).__setattr__(name, value)
+        super(Face, self).__setitem__(name, value)
+
+    __setitem__ = __setattr__
+
+    def __getattr__(self, name):
+        return None
+
+    @property
+    def embedding_norm(self):
+        if self.embedding is None:
+            return None
+        return l2norm(self.embedding)
+
+    @property 
+    def normed_embedding(self):
+        if self.embedding is None:
+            return None
+        return self.embedding / self.embedding_norm
+
+    @property 
+    def sex(self):
+        if self.gender is None:
+            return None
+        return 'M' if self.gender==1 else 'F'
 
 class FaceAnalysis:
-    def __init__(self, name=DEFAULT_MP_NAME, root='./gui', allowed_modules=None, **kwargs):
+    def __init__(self, allowed_modules=None, **kwargs):
         onnxruntime.set_default_logger_severity(3)
         self.models = {}
-        self.model_dir = ensure_available('models', name, root=root)
+        self.model_dir = './gui/models/Detection'
         onnx_files = glob.glob(osp.join(self.model_dir, '*.onnx'))
         onnx_files = sorted(onnx_files)
         for onnx_file in onnx_files:
@@ -36,10 +72,8 @@ class FaceAnalysis:
         assert 'detection' in self.models
         self.det_model = self.models['detection']
 
-
     def prepare(self, ctx_id, det_thresh=0.5, det_size=(640, 640)):
         self.det_thresh = det_thresh
-        assert det_size is not None
         print('set det-size:', det_size)
         self.det_size = det_size
         for taskname, model in self.models.items():

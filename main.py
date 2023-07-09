@@ -2,8 +2,6 @@ import os
 import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QApplication
-from PySide6.QtCore import QTimer
-from gui.core.functions import Functions
 from gui.core.json_settings import Settings
 from gui.uis.windows.main_window import *
 from gui.widgets import *
@@ -30,6 +28,7 @@ class MainWindow(QMainWindow):
 
         # Create and write to status file
         self.update_status_file(0)
+        
         # Setup UI on window
         SetupMainWindow.setup_gui(self)
 

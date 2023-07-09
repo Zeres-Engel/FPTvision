@@ -54,8 +54,6 @@ class Ui_LeftColumn(object):
         self.btn_3_layout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.addWidget(self.btn_3_widget)
         
-        
-        
         self.label_1 = QLabel(self.menu_1)
         self.label_1.setObjectName(u"label_1")
         font = QFont()
