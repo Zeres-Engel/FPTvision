@@ -6,14 +6,18 @@
   </p>
 </div>
 
-Welcome to Surfing Stock, an application built using the [QT](https://en.wikipedia.org/wiki/Qt_(software)) library that utilizes a prediction model for stock prices based on an [LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory) neural network. This app provides users with the ability to predict the stock prices for the following day using data from the seven previous days.
+Welcome to FPT Vision, an application built using the QT library that combines the power of facial detection and recognition. With the utilization of the RetinaFace model for facial detection and the Iresnet100 and ArcFace models for facial recognition, FPT Vision provides accurate and efficient face labeling and recognition capabilities.
 
-With its user-friendly interface, Surfing Stock is easy to use and provides users with reliable and insightful predictions. By utilizing the power of deep learning, Surfing Stock can help users make informed decisions in their investment strategies.
+This application allows users to label names for faces captured through a camera or images, enabling the creation of labeled datasets for training and identification purposes. Additionally, FPT Vision leverages the camera to perform real-time face recognition, providing instant identification and verification.
+
+With a user-friendly interface, FPT Vision offers seamless interaction and intuitive controls for capturing, labeling, and recognizing faces. The advanced deep learning techniques employed by FPT Vision ensure reliable and precise results, enabling users to effectively organize and analyze face-related data.
+
+Make the most of FPT Vision to streamline your face labeling and recognition tasks, whether it's for security, identification, or personalized applications. Feel empowered with this powerful tool that harnesses the capabilities of QT, RetinaFace, Iresnet100, and ArcFace to enhance your facial analysis workflows.
 
 <p align="center">
   <img src="https://img.shields.io/badge/OS-Windows-red?style=flat&logo=" />
-  <img src="https://img.shields.io/badge/Python-v3.10.10-blue?style=flat&logo=python" />
-  <img src="https://img.shields.io/badge/Neural%20Network-LSTM-yellow?style=flat&logo=tensorflow" />
+  <img src="https://img.shields.io/badge/Python-v3.9.13-blue?style=flat&logo=python" />
+  <img src="https://img.shields.io/badge/Neural%20Network-Iresnet100%2C%20ArcFace%20PyTorch-yellow?style=flat&logo=pytorch"" />
   <img src="https://img.shields.io/badge/QT-6.3.2-green?style=flat&logo=qt" />
   <a href="https://github.com/Zeres-Engel"><img src="https://img.shields.io/github/followers/Zeres-Engel.svg?style=social&label=Follow" /></a>
 </p>
