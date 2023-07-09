@@ -17,7 +17,7 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 <p align="center">
   <img src="https://img.shields.io/badge/OS-Windows-red?style=flat&logo=" />
   <img src="https://img.shields.io/badge/Python-v3.9.13-blue?style=flat&logo=python" />
-  <img src="https://img.shields.io/badge/Neural%20Network-Iresnet100%2C%20ArcFace%20PyTorch-yellow?style=flat&logo=pytorch"" />
+  <img src="https://img.shields.io/badge/Neural%20Network-Iresnet100%2C%20ArcFace-yellow?style=flat&logo=pytorch" />
   <img src="https://img.shields.io/badge/QT-6.3.2-green?style=flat&logo=qt" />
   <a href="https://github.com/Zeres-Engel"><img src="https://img.shields.io/github/followers/Zeres-Engel.svg?style=social&label=Follow" /></a>
 </p>
