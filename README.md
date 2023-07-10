@@ -83,7 +83,10 @@ The application allows users to label faces by providing names and performs reco
       pip install -r requirements.txt
       ```
 
-  2. Run the Application:
+  2. Download the Models:
+    Download the models folder from the following link: [Google Drive](https://drive.google.com/drive/folders/1-4jXZzwsluhL9SlVG3yAZuli_pBdNAll?usp=sharing).
+
+  3. Run the Application:
     Once the dependencies are installed, you can run the application using the following command:
       ```shell
       python main.py
