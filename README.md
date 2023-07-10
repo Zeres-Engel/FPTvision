@@ -17,7 +17,7 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 <p align="center">
   <img src="https://img.shields.io/badge/OS-Windows-red?style=flat&logo=" />
   <img src="https://img.shields.io/badge/Python-v3.9.13-blue?style=flat&logo=python" />
-  <img src="https://img.shields.io/badge/Neural%20Network-Iresnet100%2C%20ArcFace%20PyTorch%2C%20RetinaFace-yellow?style=flat&logo=pytorch" />
+  <img src="https://img.shields.io/badge/Neural%20Network-Iresnet100%2C%20ArcFace%2C%20RetinaFace-yellow?style=flat&logo=pytorch" />
   <img src="https://img.shields.io/badge/QT-6.3.2-green?style=flat&logo=qt" />
   <a href="https://github.com/Zeres-Engel"><img src="https://img.shields.io/github/followers/Zeres-Engel.svg?style=social&label=Follow" /></a>
 </p>
@@ -32,7 +32,7 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 
 ## Overview
 
-The app is designed to automatically scrape stock data using the VNStock API and predict the stock price for the following day. The app displays the predicted stock price using a chart.
+The application allows users to label faces by entering names in the text bar. The model performs facial detection and applies a normalization crop to the detected faces. It then saves the cropped face images into a directory with the same name as the entered name. Additionally, the application performs facial recognition on the detected faces.
   <img src="images/overview.png" width="800">
 
 
