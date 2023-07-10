@@ -84,7 +84,7 @@ The application allows users to label faces by providing names and performs reco
       ```
 
   2. Download the Models:
-    Download the models folder from the following link: [Google Drive](https://drive.google.com/drive/folders/1-4jXZzwsluhL9SlVG3yAZuli_pBdNAll?usp=sharing).
+    Download the models folder from the following [link](https://drive.google.com/drive/folders/1-4jXZzwsluhL9SlVG3yAZuli_pBdNAll?usp=sharing) and move to './gui/'
 
   3. Run the Application:
     Once the dependencies are installed, you can run the application using the following command:
