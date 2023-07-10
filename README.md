@@ -33,7 +33,7 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 
 The application allows users to label faces by entering names in the text bar. The model performs facial detection and applies a normalization crop to the detected faces. It then saves the cropped face images into a directory with the same name as the entered name. Additionally, the application performs facial recognition on the detected faces.
 
-  <img src="images/overview.png" width="600">
+  <img src="images/overview.png" width="800">
 
 ## Operational Principles
 
@@ -43,7 +43,7 @@ After detecting the facial landmarks, the application extracts the corresponding
 
 To perform recognition, the application compares the feature vectors of the detected faces using cosine similarity. Cosine similarity measures the similarity between two vectors by calculating the cosine of the angle between them. By comparing the feature vectors, the application determines the degree of similarity between faces and performs recognition accordingly.
 
-  <img src="images/diagram.png" width="600">
+  <img src="images/diagram.png" width="800">
 
 ## Deploying the Product
 
@@ -59,19 +59,19 @@ The application allows users to label faces by providing names and performs reco
 
   This feature allows users to select a JPG image file and enter a name for the face found in the image. The application will save the cropped face image with the entered name below the text bar. It's important to note that this feature is designed for images with only a single face.
 
-  <img src="images/feature1.png" width="600">
+  <img src="images/feature1.png" width="800">
 
   * Feature 2: Camera Face Labeling
 
   With this feature, users can open the camera and perform face labeling through the camera input. By entering a name in the text bar, the application will label the face detected with the largest bounding box and display it within the application.
 
-  <img src="images/feature2.png" width="600">
+  <img src="images/feature2.png" width="800">
 
   * Feature 3: Camera Face Recognition
 
   The final feature utilizes the camera input to detect faces and display the names of the faces based on the previously aligned faces stored in the "Aligned" directory. If no matching directory is found for the detected faces in the "Aligned" directory, the application will label them as "Unknown".
 
-  <img src="images/feature3.png" width="600">
+  <img src="images/feature3.png" width="800">
 
   ### Configuration
 
