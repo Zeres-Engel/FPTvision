@@ -43,11 +43,6 @@ After detecting the facial landmarks, the application extracts the corresponding
 To perform recognition, the application compares the feature vectors of the detected faces using cosine similarity. Cosine similarity measures the similarity between two vectors by calculating the cosine of the angle between them. By comparing the feature vectors, the application determines the degree of similarity between faces and performs recognition accordingly.
   <img src="images/diagram.png" width="800">
 
-. Ứng dụng này có tất cả 3 tính năng:
-+ Tính năng đầu tiên đó là chọn một bức ảnh jpg và nhập vào tên cho khuôn mặt được tìm thấy trong bức ảnh và lưu ảnh của khuôn mặt này theo tên được nhập vào bên dưới thanh text bar (lưu ý chỉ chọn những bức ảnh có 1 khuôn mặt duy nhất)
-+ Tính năng thứ 2 đó là mở camera và thực hiện label khuôn mặt qua camera thông qua tên được nhập dưới text bar. Khuôn mặt được label vào là khuôn mặt có bouding box lớn nhất và được hiển thị thông qua ứng dụng.
-+ Tính năng cuối cùng là mở Camera và nó sẽ load tất cả các khuôn mặt có sẵn trong thư mục Aligned và thực hiện recognition trong camera nếu như không tồn tại khuôn mặt của 1 người trong thư mục aligned thì nó sẽ hiện 
-
 ## Deploying the Product
 
 Our face recognition application is designed to provide accurate and efficient face detection, landmark detection, and recognition capabilities. It leverages advanced deep learning models, including RetinaFace for face detection, Iresnet100 and ArcFace for face recognition, and landmark detection algorithms to ensure precise alignment.
@@ -68,7 +63,7 @@ The application allows users to label faces by providing names and performs reco
 
   * Feature 3: Camera Face Recognition
 
-  The final feature utilizes the camera input and loads all available faces from the "Aligned" directory. It then performs recognition on the faces captured by the camera. If a face does not exist in the "Aligned" directory, the application will prompt the user to label it.
+  The final feature utilizes the camera input to detect faces and display the names of the faces based on the previously aligned faces stored in the "Aligned" directory. If no matching directory is found for the detected faces in the "Aligned" directory, the application will label them as "Unknown".
 
   ### Configuration
 
