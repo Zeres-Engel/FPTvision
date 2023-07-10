@@ -88,6 +88,3 @@ The application allows users to label faces by providing names and performs reco
       ```shell
       python main.py
       ```
-
-  3. Quick Start:
-    If you want to quickly experience the application without going through the installation process, you can download the pre-built application from [here](https://example.com).
