@@ -25,7 +25,6 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 # Table of Content
 - [Overview](#overview)
 - [Operational Principles](#operational-principles)
-- [Building the Model](#building-the-model)
 - [Deploying the Product](#deploying-the-product)
     - [User Interface](#user-interface)
     - [Configuration](#configuration)
@@ -49,31 +48,43 @@ To perform recognition, the application compares the feature vectors of the dete
 + Tính năng thứ 2 đó là mở camera và thực hiện label khuôn mặt qua camera thông qua tên được nhập dưới text bar. Khuôn mặt được label vào là khuôn mặt có bouding box lớn nhất và được hiển thị thông qua ứng dụng.
 + Tính năng cuối cùng là mở Camera và nó sẽ load tất cả các khuôn mặt có sẵn trong thư mục Aligned và thực hiện recognition trong camera nếu như không tồn tại khuôn mặt của 1 người trong thư mục aligned thì nó sẽ hiện 
 
-
-## Building the Model
-
 ## Deploying the Product
 
-To use the Surfing Stock app, users simply need to download and install the required libraries and run the main.py file or         https://drive.google.com/file/d/1OmZuhPzRKWvL9k_hTiSArxFXpCDq9sx- . The app will automatically scrape stock data and use the saved LSTM model to make predictions for the following day's stock price.
+Our face recognition application is designed to provide accurate and efficient face detection, landmark detection, and recognition capabilities. It leverages advanced deep learning models, including RetinaFace for face detection, Iresnet100 and ArcFace for face recognition, and landmark detection algorithms to ensure precise alignment.
 
-The predicted stock price is displayed on the app's user interface, along with a chart that shows the historical stock prices and the predicted stock price for the next day.
-
-The app also includes a settings menu where users can adjust the time range of the historical stock data displayed on the chart, as well as the time range of the predicted stock price.
-
-Overall, the Surfing Stock app provides a user-friendly and efficient way for users to make informed decisions in their investment strategies by utilizing the power of deep learning to predict stock prices.
+The application allows users to label faces by providing names and performs recognition by comparing the extracted feature vectors using cosine similarity. It provides seamless integration with cameras and image inputs, making it suitable for real-time face recognition applications.
 
   ### User Interface
 
-  The product has a user interface that displays the predicted stock price using a chart. The chart is designed to be easy to read and understand.
+  The user interface of our face recognition application is designed to provide an intuitive and seamless experience for users. It incorporates three main features, each offering specific functionality:
 
-  Closing price chart:
+  * Feature 1: Image Labeling
 
-  <img src="images/overview.png" width="800">
+  This feature allows users to select a JPG image file and enter a name for the face found in the image. The application will save the cropped face image with the entered name below the text bar. It's important to note that this feature is designed for images with only a single face.
 
-  Model quality rating chart:
+  * Feature 2: Camera Face Labeling
 
-  <img src="images/evaluate.png" width="800">
+  With this feature, users can open the camera and perform face labeling through the camera input. By entering a name in the text bar, the application will label the face detected with the largest bounding box and display it within the application.
+
+  * Feature 3: Camera Face Recognition
+
+  The final feature utilizes the camera input and loads all available faces from the "Aligned" directory. It then performs recognition on the faces captured by the camera. If a face does not exist in the "Aligned" directory, the application will prompt the user to label it.
 
   ### Configuration
 
-  The Surfing Stock app has a user-friendly interface that displays predicted stock prices using a chart. To run this code, programers need to install the required libraries, which are listed in the requirements.txt file.
+  To run the FPT Vision application, follow the steps below:
+
+  1. Install Dependencies:
+    - Make sure you have the required dependencies installed in your environment. You can install them by running the following command:
+      ```shell
+      pip install -r requirements.txt
+      ```
+
+  2. Run the Application:
+    - Once the dependencies are installed, you can run the application using the following command:
+      ```shell
+      python main.py
+      ```
+
+  3. Quick Start:
+    - If you want to quickly experience the application without going through the installation process, you can download the pre-built application from [here](https://example.com).
