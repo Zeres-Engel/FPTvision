@@ -32,15 +32,17 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 ## Overview
 
 The application allows users to label faces by entering names in the text bar. The model performs facial detection and applies a normalization crop to the detected faces. It then saves the cropped face images into a directory with the same name as the entered name. Additionally, the application performs facial recognition on the detected faces.
-  <img src="images/overview.png" width="800">
 
+  <img src="images/overview.png" width="700">
 
 ## Operational Principles
+
 The application utilizes the RetinaFace model for facial detection, which accurately locates faces in the input images. Additionally, it performs landmark detection to identify five key facial landmarks: the two eyes, the nose, and the two mouth corners.
 
 After detecting the facial landmarks, the application extracts the corresponding facial regions and transforms them into feature vectors using the Iresnet100 and ArcFace models. These feature vectors capture the unique characteristics of each face.
 
 To perform recognition, the application compares the feature vectors of the detected faces using cosine similarity. Cosine similarity measures the similarity between two vectors by calculating the cosine of the angle between them. By comparing the feature vectors, the application determines the degree of similarity between faces and performs recognition accordingly.
+
   <img src="images/diagram.png" width="800">
 
 ## Deploying the Product
@@ -70,16 +72,16 @@ The application allows users to label faces by providing names and performs reco
   To run the FPT Vision application, follow the steps below:
 
   1. Install Dependencies:
-    - Make sure you have the required dependencies installed in your environment. You can install them by running the following command:
+    Make sure you have the required dependencies installed in your environment. You can install them by running the following command:
       ```shell
       pip install -r requirements.txt
       ```
 
   2. Run the Application:
-    - Once the dependencies are installed, you can run the application using the following command:
+    Once the dependencies are installed, you can run the application using the following command:
       ```shell
       python main.py
       ```
 
   3. Quick Start:
-    - If you want to quickly experience the application without going through the installation process, you can download the pre-built application from [here](https://example.com).
+    If you want to quickly experience the application without going through the installation process, you can download the pre-built application from [here](https://example.com).
