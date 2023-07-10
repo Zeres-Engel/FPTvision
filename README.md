@@ -24,7 +24,7 @@ Make the most of FPT Vision to streamline your face labeling and recognition tas
 
 # Table of Content
 - [Overview](#overview)
-- [Construction](#construction)
+- [Operational Principles](#operational-principles)
 - [Building the Model](#building-the-model)
 - [Deploying the Product](#deploying-the-product)
     - [User Interface](#user-interface)
@@ -36,7 +36,18 @@ The application allows users to label faces by entering names in the text bar. T
   <img src="images/overview.png" width="800">
 
 
-## Construction
+## Operational Principles
+The application utilizes the RetinaFace model for facial detection, which accurately locates faces in the input images. Additionally, it performs landmark detection to identify five key facial landmarks: the two eyes, the nose, and the two mouth corners.
+
+After detecting the facial landmarks, the application extracts the corresponding facial regions and transforms them into feature vectors using the Iresnet100 and ArcFace models. These feature vectors capture the unique characteristics of each face.
+
+To perform recognition, the application compares the feature vectors of the detected faces using cosine similarity. Cosine similarity measures the similarity between two vectors by calculating the cosine of the angle between them. By comparing the feature vectors, the application determines the degree of similarity between faces and performs recognition accordingly.
+  <img src="images/diagram.png" width="800">
+
+. Ứng dụng này có tất cả 3 tính năng:
++ Tính năng đầu tiên đó là chọn một bức ảnh jpg và nhập vào tên cho khuôn mặt được tìm thấy trong bức ảnh và lưu ảnh của khuôn mặt này theo tên được nhập vào bên dưới thanh text bar (lưu ý chỉ chọn những bức ảnh có 1 khuôn mặt duy nhất)
++ Tính năng thứ 2 đó là mở camera và thực hiện label khuôn mặt qua camera thông qua tên được nhập dưới text bar. Khuôn mặt được label vào là khuôn mặt có bouding box lớn nhất và được hiển thị thông qua ứng dụng.
++ Tính năng cuối cùng là mở Camera và nó sẽ load tất cả các khuôn mặt có sẵn trong thư mục Aligned và thực hiện recognition trong camera nếu như không tồn tại khuôn mặt của 1 người trong thư mục aligned thì nó sẽ hiện 
 
 
 ## Building the Model
