@@ -233,5 +233,3 @@ class RetinaFace:
             order = order[inds + 1]
 
         return keep
-
-
