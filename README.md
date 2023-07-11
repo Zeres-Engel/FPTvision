@@ -6,11 +6,11 @@
   </p>
 </div>
 
-Welcome to FPT Vision, an application built using the QT library that combines the power of facial detection and recognition. With the utilization of the RetinaFace model for facial detection and the Iresnet100 and ArcFace models for facial recognition, FPT Vision provides accurate and efficient face labeling and recognition capabilities.
+Welcome to FPT Vision, an application built using the QT library that combines the power of facial detection and recognition. FPT Vision provides accurate and efficient face labeling and recognition capabilities with the RetinaFace model for facial detection and the Iresnet100 and ArcFace models for facial recognition.
 
 This application allows users to label names for faces captured through a camera or images, enabling the creation of labeled datasets for training and identification purposes. Additionally, FPT Vision leverages the camera to perform real-time face recognition, providing instant identification and verification.
 
-With a user-friendly interface, FPT Vision offers seamless interaction and intuitive controls for capturing, labeling, and recognizing faces. The advanced deep learning techniques employed by FPT Vision ensure reliable and precise results, enabling users to effectively organize and analyze face-related data.
+With a user-friendly interface, FPT Vision offers seamless interaction and intuitive controls for capturing, labeling, and recognizing faces. The advanced deep learning techniques employed by FPT Vision ensure reliable and precise results, enabling users to organize and analyze face-related data effectively.
 
 Make the most of FPT Vision to streamline your face labeling and recognition tasks, whether it's for security, identification, or personalized applications. Feel empowered with this powerful tool that harnesses the capabilities of QT, RetinaFace, Iresnet100, and ArcFace to enhance your facial analysis workflows.
 
@@ -41,7 +41,7 @@ The application utilizes the RetinaFace model for facial detection, which accura
 
 After detecting the facial landmarks, the application extracts the corresponding facial regions and transforms them into feature vectors using the Iresnet100 and ArcFace models. These feature vectors capture the unique characteristics of each face.
 
-To perform recognition, the application compares the feature vectors of the detected faces using cosine similarity. Cosine similarity measures the similarity between two vectors by calculating the cosine of the angle between them. By comparing the feature vectors, the application determines the degree of similarity between faces and performs recognition accordingly.
+The application compares the feature vectors of the detected faces using cosine similarity to perform recognition. Cosine similarity measures the similarity between two vectors by calculating the cosine of the angle between them. By comparing the feature vectors, the application determines the degree of similarity between faces and performs recognition accordingly.
 
   <img src="images/diagram.png" width="800">
 
@@ -63,13 +63,13 @@ The application allows users to label faces by providing names and performs reco
 
   * Feature 2: Camera Face Labeling
 
-  With this feature, users can open the camera and perform face labeling through the camera input. By entering a name in the text bar, the application will label the face detected with the largest bounding box and display it within the application.
+  With this feature, users can open the camera and perform face labeling through the camera input. By entering a name in the text bar, the application will label the face detected with the most oversized bounding box and display it within the application.
 
   <img src="images/feature2.png" width="800">
 
   * Feature 3: Camera Face Recognition
 
-  The final feature utilizes the camera input to detect faces and display the names of the faces based on the previously aligned faces stored in the "Aligned" directory. If no matching directory is found for the detected faces in the "Aligned" directory, the application will label them as "Unknown".
+  The final feature utilizes the camera input to detect faces and display the names of the faces based on the previously aligned faces stored in the "Aligned" directory. If no matching manual is found for the detected faces in the "Aligned" guide, the application will label them as "Unknown".
 
   <img src="images/feature3.png" width="800">
 
