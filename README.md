@@ -6,13 +6,13 @@
   </p>
 </div>
 
-Welcome to FPT Vision, an application built using the QT library that combines the power of facial detection and recognition. FPT Vision provides accurate and efficient face labeling and recognition capabilities with the RetinaFace model for facial detection and the Iresnet100 and ArcFace models for facial recognition.
+Welcome to **FPT Vision**, an application built using the QT library that combines the power of facial detection and recognition. **FPT Vision** provides accurate and efficient face labeling and recognition capabilities with the RetinaFace model for facial detection and the Iresnet100 and ArcFace models for facial recognition.
 
-This application allows users to label names for faces captured through a camera or images, enabling the creation of labeled datasets for training and identification purposes. Additionally, FPT Vision leverages the camera to perform real-time face recognition, providing instant identification and verification.
+This application allows users to label names for faces captured through a camera or images, enabling the creation of labeled datasets for training and identification purposes. Additionally, **FPT Vision** leverages the camera to perform real-time face recognition, providing instant identification and verification.
 
-With a user-friendly interface, FPT Vision offers seamless interaction and intuitive controls for capturing, labeling, and recognizing faces. The advanced deep learning techniques employed by FPT Vision ensure reliable and precise results, enabling users to organize and analyze face-related data effectively.
+With a user-friendly interface, **FPT Vision** offers seamless interaction and intuitive controls for capturing, labeling, and recognizing faces. The advanced deep learning techniques employed by **FPT Vision** ensure reliable and precise results, enabling users to organize and analyze face-related data effectively.
 
-Make the most of FPT Vision to streamline your face labeling and recognition tasks, whether it's for security, identification, or personalized applications. Feel empowered with this powerful tool that harnesses the capabilities of QT, RetinaFace, Iresnet100, and ArcFace to enhance your facial analysis workflows.
+Make the most of **FPT Vision** to streamline your face labeling and recognition tasks, whether it's for security, identification, or personalized applications. Feel empowered with this powerful tool that harnesses the capabilities of QT, RetinaFace, Iresnet100, and ArcFace to enhance your facial analysis workflows.
 
 <p align="center">
   <img src="https://img.shields.io/badge/OS-Windows-red?style=flat&logo=" />
@@ -55,19 +55,19 @@ The application allows users to label faces by providing names and performs reco
 
   The user interface of our face recognition application is designed to provide an intuitive and seamless experience for users. It incorporates three main features, each offering specific functionality:
 
-  * Feature 1: Image Labeling
+  - **Feature 1**: Image Labeling
 
   This feature allows users to select a JPG image file and enter a name for the face found in the image. The application will save the cropped face image with the entered name below the text bar. It's important to note that this feature is designed for images with only a single face.
 
   <img src="images/feature1.png" width="800">
 
-  * Feature 2: Camera Face Labeling
+  - **Feature 2**: Camera Face Labeling
 
   With this feature, users can open the camera and perform face labeling through the camera input. By entering a name in the text bar, the application will label the face detected with the most oversized bounding box and display it within the application.
 
   <img src="images/feature2.png" width="800">
 
-  * Feature 3: Camera Face Recognition
+  - **Feature 3**: Camera Face Recognition
 
   The final feature utilizes the camera input to detect faces and display the names of the faces based on the previously aligned faces stored in the "Aligned" directory. If no matching manual is found for the detected faces in the "Aligned" guide, the application will label them as "Unknown".
 
@@ -75,12 +75,12 @@ The application allows users to label faces by providing names and performs reco
 
   ### Configuration
 
-  To run the FPT Vision application, follow the steps below:
+  To run the **FPT Vision** application, follow the steps below:
 
   1. Install Dependencies:
     Make sure you have the required dependencies installed in your environment. You can install them by running the following command:
       ```shell
-      pip install -r requirements.txt
+      conda env create -f environment.yml
       ```
 
   2. Download the Models:
